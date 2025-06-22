@@ -1,0 +1,23 @@
+.navbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 100px;
+}
+.logo {
+  padding-left: 60px;
+  height: 150px;
+  width: 150px;
+}
+.navigation {
+  display: flex;
+  gap: 30px;
+  align-content: center;
+}
+.navigation a {
+  font-family: "Noto Sans", sans-serif;
+  font-weight: 700;
+  color: #03045e;
+  text-decoration: none;
+}
