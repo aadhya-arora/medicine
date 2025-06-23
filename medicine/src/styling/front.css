@@ -17,6 +17,7 @@
 }
 
 .task {
+  padding-bottom: 100px;
   margin-top: 40px;
   justify-content: center;
   display: flex;
@@ -139,4 +140,59 @@
   font-weight: 500;
   line-height: 1.6;
   max-width: 90%;
+}
+
+.explore-1 {
+  width: 150px;
+  padding: 15px;
+  border-radius: 1rem;
+  background-color: rgb(2, 2, 43);
+  color: white;
+  border: none;
+}
+
+.cta-wrapper {
+  width: 100%;
+  background-color: #798294; /* Primary CTA color */
+  display: flex;
+  justify-content: center;
+  padding: 60px 20px;
+  box-sizing: border-box;
+}
+
+.cta-section {
+  width: 100%;
+  max-width: 1200px;
+  text-align: center;
+  color: white;
+}
+
+.cta-heading {
+  font-size: 36px;
+  font-family: "Montserrat", sans-serif;
+  margin-bottom: 20px;
+}
+
+.cta-subtext {
+  font-size: 18px;
+  font-weight: 400;
+  max-width: 800px;
+  margin: 0 auto 30px;
+  line-height: 1.6;
+}
+
+.cta-button {
+  background-color: white;
+  color: #5f697d;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 14px 30px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+  background-color: #dceaff;
 }
