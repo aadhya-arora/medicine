@@ -1,0 +1,142 @@
+.main_img {
+  height: 100vh;
+  width: 100vw;
+  display: block;
+}
+
+.container-1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.con-1 {
+  text-transform: uppercase;
+  font-family: "Montserrat", sans-serif;
+  font-size: 50px;
+}
+
+.task {
+  margin-top: 40px;
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
+  gap: 200px;
+}
+
+.reminder-card {
+  width: 420px;
+  height: 400px;
+  perspective: 1000px;
+}
+
+.reminder-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.8s ease-in-out;
+}
+
+.reminder-card:hover .reminder-inner {
+  transform: rotateY(180deg);
+}
+
+.reminder-front,
+.reminder-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Montserrat", sans-serif;
+  font-size: 18px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.reminder-front {
+  background-image: url("../assets/rem.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.reminder-back {
+  background-color: #e6fff5; /* or your chosen background */
+  color: #333;
+  transform: rotateY(180deg);
+  border-radius: 1rem;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.reminder-info {
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.6;
+  max-width: 90%;
+}
+
+.search-card {
+  width: 420px;
+  height: 400px;
+  perspective: 1000px;
+}
+
+.search-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.8s ease-in-out;
+}
+
+.search-card:hover .search-inner {
+  transform: rotateY(180deg);
+}
+
+.search-front,
+.search-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  backface-visibility: hidden;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.search-front {
+  background-image: url("../assets/search.png");
+}
+
+.search-back {
+  background-color: #e6fff5;
+  color: #333;
+  transform: rotateY(180deg);
+  border-radius: 1rem;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.search-info {
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.6;
+  max-width: 90%;
+}
