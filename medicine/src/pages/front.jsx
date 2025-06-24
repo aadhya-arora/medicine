@@ -1,12 +1,46 @@
 import front from "../assets/front.png";
 import { Clock } from "lucide-react";
 import { BiSearch } from "react-icons/bi";
+import { FaLightbulb } from "react-icons/fa";
+import { MdHealthAndSafety } from "react-icons/md";
+import { BsCalendarCheck } from "react-icons/bs";
 import "../styling/front.css";
 
 const Front = () => {
   return (
     <div className="main_page">
       <img src={front} alt="front-display" className="main_img" />
+
+      <div className="aim-section">
+        <h2 className="aim-heading">What We Aim For</h2>
+        <div className="aim-cards">
+          <div className="aim-card">
+            <FaLightbulb className="aim-icon" />
+            <h3>Awareness</h3>
+            <p>
+              Educating users about medicines — their purpose, how they work,
+              and what conditions they treat — to promote informed health
+              decisions.
+            </p>
+          </div>
+          <div className="aim-card">
+            <MdHealthAndSafety className="aim-icon" />
+            <h3>Prevention</h3>
+            <p>
+              Encouraging timely and consistent medication use to prevent
+              complications and improve long-term health outcomes.
+            </p>
+          </div>
+          <div className="aim-card">
+            <BsCalendarCheck className="aim-icon" />
+            <h3>Consistency</h3>
+            <p>
+              Helping users stay on track with daily reminders and tools that
+              support healthy habits and medication adherence.
+            </p>
+          </div>
+        </div>
+      </div>
 
       <div className="cta-wrapper">
         <div className="cta-section">
@@ -61,6 +95,42 @@ const Front = () => {
           </div>
         </div>
       </div>
+      <footer className="footer">
+        <div className="footer-main">
+          <div className="footer-section">
+            <h3>MedTrack</h3>
+            <p>
+              Helping you stay consistent, aware, and on track with your health
+              every day.
+            </p>
+          </div>
+          <div className="footer-section">
+            <h4>Explore</h4>
+            <ul>
+              <li>
+                <a href="#">Home</a>
+              </li>
+              <li>
+                <a href="#">Med Guide</a>
+              </li>
+              <li>
+                <a href="#">Reminders</a>
+              </li>
+              <li>
+                <a href="#">Search</a>
+              </li>
+            </ul>
+          </div>
+          <div className="footer-section">
+            <h4>Contact</h4>
+            <p>Email: support@medtrack.com</p>
+            <p>Phone: +91-12345-67890</p>
+          </div>
+        </div>
+        <div className="footer-bottom">
+          <p>&copy; 2025 MedTrack | Designed with care.</p>
+        </div>
+      </footer>
     </div>
   );
 };

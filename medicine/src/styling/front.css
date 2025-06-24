@@ -8,6 +8,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: #f5f7fa;
 }
 
 .con-1 {
@@ -66,7 +67,7 @@
 }
 
 .reminder-back {
-  background-color: #e6fff5; /* or your chosen background */
+  background-color: #e6fff5;
   color: #333;
   transform: rotateY(180deg);
   border-radius: 1rem;
@@ -143,17 +144,29 @@
 }
 
 .explore-1 {
-  width: 150px;
-  padding: 15px;
-  border-radius: 1rem;
-  background-color: rgb(2, 2, 43);
+  width: 160px;
+  padding: 12px 20px;
+  border-radius: 12px;
+  background-color: transparent;
+  color: #02022b;
+  border: 2px solid #02022b;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.explore-1:hover {
+  background-color: #02022b;
   color: white;
-  border: none;
+  transform: translateY(-2px);
 }
 
 .cta-wrapper {
   width: 100%;
-  background-color: #798294; /* Primary CTA color */
+  background-color: #798294;
   display: flex;
   justify-content: center;
   padding: 60px 20px;
@@ -195,4 +208,131 @@
 
 .cta-button:hover {
   background-color: #dceaff;
+}
+.aim-section {
+  padding: 60px 20px;
+  background-color: #f5f7fa;
+  text-align: center;
+}
+
+.aim-heading {
+  font-size: 36px;
+  font-family: "Montserrat", sans-serif;
+  margin-bottom: 40px;
+  color: #333;
+}
+
+.aim-cards {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.aim-card {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 30px 20px;
+  width: 300px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.aim-card:hover {
+  transform: translateY(-8px);
+}
+
+.aim-icon {
+  font-size: 40px;
+  color: rgb(6, 6, 69);
+  margin-bottom: 15px;
+}
+
+.aim-card h3 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: rgb(6, 6, 69);
+}
+
+.aim-card p {
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #444;
+}
+
+.footer {
+  background-color: #798294;
+  color: #ffffff;
+  padding: 60px 40px 30px;
+  font-family: "Montserrat", sans-serif;
+  width: 94.8%;
+}
+
+.footer-main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 1300px;
+  margin: 0 auto;
+  gap: 60px;
+}
+
+.footer-section {
+  flex: 1 1 300px;
+}
+
+.footer-section h3 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+
+.footer-section h4 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: #ffffff;
+}
+
+.footer-section p,
+.footer-section a {
+  font-size: 16px;
+  color: #d1d1d1;
+  line-height: 1.8;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-section a:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-section li {
+  margin-bottom: 12px;
+}
+
+.footer-bottom {
+  font-weight: 700;
+  text-align: center;
+  padding-top: 30px;
+  margin-top: 40px;
+  border-top: 1px solid #444;
+  font-size: 14px;
+  color: #aaaaaa;
+}
+
+.footer-section p,
+.footer-section a {
+  font-weight: 700;
 }
