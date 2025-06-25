@@ -62,7 +62,9 @@ const Front = () => {
             Set reminders, search for medicines, and stay informed — all in one
             place. Your well-being deserves consistency.
           </p>
-          <button className="cta-button">Set Up A Reminder</button>
+          <button className="cta-button" onClick={handleExploreReminder}>
+            Set Up A Reminder
+          </button>
         </div>
       </div>
 
