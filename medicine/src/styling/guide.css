@@ -1,0 +1,149 @@
+.question {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15%;
+  gap: 10px;
+  flex-direction: row;
+}
+.input-wrapper {
+  position: relative;
+  width: 50%;
+}
+
+.typing {
+  width: 100%;
+  padding: 1.25rem;
+  padding-right: 90px;
+  border-radius: 1rem;
+  font-size: 16px;
+  outline: none;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  color: #1a1a1a;
+  font-weight: 500;
+}
+
+.ask {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  background-color: #0b1444;
+  color: white;
+  transition: background-color 0.3s;
+}
+
+.ask:hover {
+  background-color: #798294;
+}
+
+.ask svg {
+  margin-left: 6px;
+}
+
+.results {
+  margin-top: 2rem;
+  padding: 0 2rem;
+}
+
+.result-item {
+  background-color: #798294;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.result-item h3 {
+  font-size: 22px;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
+.error {
+  text-align: center;
+  margin-top: 4rem;
+  font-size: 1.1rem;
+  color: red;
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+.results strong {
+  color: #ffffff;
+}
+
+.results p {
+  color: #dfdddd;
+}
+.usage-list {
+  color: #dfdddd;
+}
+
+.info-boxes {
+  margin-top: 30px;
+  background-color: #f8f9fb;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  padding-bottom: 3.5rem;
+  flex-wrap: wrap;
+}
+
+.info-card {
+  background-color: #ffffff;
+  color: #1a1a1a;
+  padding: 2rem;
+  border-radius: 1rem;
+  width: 280px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  transition: transform 0.3s;
+}
+
+.info-card:hover {
+  transform: translateY(-6px);
+}
+
+.info-card .emoji {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 0.8rem;
+}
+
+.info-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.6rem;
+  color: #0b1444;
+}
+
+.trending {
+  margin-top: 1.5rem;
+  text-align: center;
+  color: #444;
+}
+.trending button {
+  margin: 0.3rem;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background-color: #e8edf3;
+  color: #0b1444;
+  border: none;
+  cursor: pointer;
+}
+
+.info-heading {
+  width: 100%;
+  text-align: center;
+  font-size: 2rem;
+  color: #0b1444;
+  font-weight: 700;
+  margin-bottom: 2rem;
+}

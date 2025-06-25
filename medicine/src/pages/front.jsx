@@ -4,9 +4,20 @@ import { BiSearch } from "react-icons/bi";
 import { FaLightbulb } from "react-icons/fa";
 import { MdHealthAndSafety } from "react-icons/md";
 import { BsCalendarCheck } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
+
 import "../styling/front.css";
 
 const Front = () => {
+  const navigate = useNavigate();
+
+  const handleExploreSearch = () => {
+    navigate("/guide");
+  };
+  const handleExploreReminder = () => {
+    navigate("/reminder");
+  };
+
   return (
     <div className="main_page">
       <img src={front} alt="front-display" className="main_img" />
@@ -51,7 +62,7 @@ const Front = () => {
             Set reminders, search for medicines, and stay informed — all in one
             place. Your well-being deserves consistency.
           </p>
-          <button className="cta-button">Set Your First Reminder</button>
+          <button className="cta-button">Set Up A Reminder</button>
         </div>
       </div>
 
@@ -60,7 +71,9 @@ const Front = () => {
         <div className="task">
           <div className="reminder-card">
             <div className="reminder-inner">
-              <div className="reminder-front"></div>
+              <div className="reminder-front">
+                <h1 className="remind_overlay">Remind you</h1>
+              </div>
               <div className="reminder-back">
                 <Clock size={50} color="#333" />
                 <p className="reminder-info">
@@ -71,14 +84,18 @@ const Front = () => {
                   critical prescription, we’ve got you covered — because your
                   health deserves reliability.
                 </p>
-                <button className="explore-1">Explore</button>
+                <button className="explore-1" onClick={handleExploreReminder}>
+                  Explore
+                </button>
               </div>
             </div>
           </div>
 
           <div className="search-card">
             <div className="search-inner">
-              <div className="search-front"></div>
+              <div className="search-front">
+                <h1 className="search_overlay">Make you aware</h1>
+              </div>
               <div className="search-back">
                 <BiSearch size={50} color="#333" />
                 <p className="search-info">
@@ -89,7 +106,9 @@ const Front = () => {
                   with knowledge and make informed health decisions—all in one
                   place.
                 </p>
-                <button className="explore-1">Explore</button>
+                <button className="explore-1" onClick={handleExploreSearch}>
+                  Explore
+                </button>
               </div>
             </div>
           </div>

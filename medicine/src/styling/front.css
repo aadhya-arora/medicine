@@ -80,6 +80,22 @@
   box-sizing: border-box;
 }
 
+.remind_overlay {
+  color: #02022b;
+  font-size: 28px;
+  font-weight: 700;
+  font-family: "Montserrat", sans-serif;
+  font-family: "Montserrat", sans-serif;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+.search_overlay {
+  color: white;
+  font-size: 28px;
+  font-weight: 700;
+  font-family: "Montserrat", sans-serif;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
 .reminder-info {
   font-family: "Montserrat", sans-serif;
   font-size: 16px;
@@ -119,6 +135,10 @@
 
 .search-front {
   background-image: url("../assets/search.png");
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .search-back {

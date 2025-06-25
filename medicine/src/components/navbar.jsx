@@ -1,14 +1,15 @@
 import logo from "../assets/medi.png";
+import { Link } from "react-router-dom";
 import "../styling/navbar.css";
 const Navbar = () => {
   return (
     <nav className="navbar">
       <img src={logo} className="logo" />
       <div className="navigation">
-        <a href="#"> Home </a>
+        <Link to="/"> Home </Link>
         <a href="#">About</a>
-        <a href="#">Med guide</a>
-        <a href="#">Reminders</a>
+        <Link to="/guide">Med guide</Link>
+        <Link to="/reminder">Reminders</Link>
       </div>
     </nav>
   );
