@@ -6,7 +6,7 @@ import User from "./user_schema.js";
 import cookieParser from "cookie-parser";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-
+import Reminder from "./reminder_schema.js";
 dotenv.config();
 const app = express();
 app.use(
@@ -62,7 +62,7 @@ app.post("/login", async (req, res) => {
     const isMatch = await bcrypt.compare(req.body.password, user.password);
     if (!isMatch) return res.status(401).json({ error: "Invalid credentials" });
     const token = jwt.sign(
-      { email: user.email, username: user.username },
+      { email: user.email, username: user.username, phone: user.phone },
       process.env.JWT_SECRET
     );
 
@@ -88,6 +88,80 @@ app.get("/verify", (req, res) => {
 app.post("/logout", (req, res) => {
   res.clearCookie("token");
   res.send("Logged out");
+});
+
+app.get("/reminders", async (req, res) => {
+  const token = req.cookies.token;
+  if (!token) return res.status(401).json({ error: "Not logged in" });
+
+  jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+    if (err) return res.status(403).json({ error: "Invalid token" });
+
+    try {
+      const reminders = await Reminder.find({ userEmail: decoded.email }).sort({
+        time: 1,
+      });
+      res.status(200).json(reminders);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Failed to fetch reminders" });
+    }
+  });
+});
+
+app.post("/add-reminder", async (req, res) => {
+  const token = req.cookies.token;
+  if (!token) return res.status(401).json({ error: "Not logged in" });
+
+  jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+    if (err) return res.status(403).json({ error: "Invalid token" });
+
+    const { medicine, time, notes } = req.body;
+
+    try {
+      const newReminder = await Reminder.create({
+        medicine,
+        time,
+        notes,
+        tel: decoded.phone,
+        userEmail: decoded.email,
+      });
+      res
+        .status(200)
+        .json({ message: "Reminder saved!", reminder: newReminder });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Failed to save reminder" });
+    }
+  });
+});
+
+app.delete("/delete-reminder/:id", async (req, res) => {
+  const token = req.cookies.token;
+  if (!token) return res.status(401).json({ error: "Not logged in" });
+
+  jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+    if (err) return res.status(403).json({ error: "Invalid token" });
+
+    try {
+      // Safe deletion: delete only if it belongs to the logged-in user
+      const reminder = await Reminder.findOneAndDelete({
+        _id: req.params.id,
+        userEmail: decoded.email,
+      });
+
+      if (!reminder) {
+        return res
+          .status(404)
+          .json({ error: "Reminder not found or not authorized" });
+      }
+
+      res.status(200).json({ message: "Reminder deleted successfully" });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Failed to delete reminder" });
+    }
+  });
 });
 
 const PORT = process.env.PORT || 5000;

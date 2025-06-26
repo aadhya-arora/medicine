@@ -1,36 +1,69 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import axios from "axios";
+import { FaTrash } from "react-icons/fa";
 import "../styling/reminder.css";
 
 const Reminder = () => {
   const [medicine, setMedicine] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
   const [notes, setNotes] = useState("");
-  const [tel, setTel] = useState("");
+  const [reminders, setReminders] = useState([]);
 
-  const handleSubmit = (e) => {
+  const fetchReminders = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/reminders", {
+        withCredentials: true,
+      });
+      setReminders(res.data);
+    } catch (err) {
+      console.error(err);
+      alert("Failed to fetch reminders");
+    }
+  };
+
+  useEffect(() => {
+    fetchReminders();
+  }, []);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!medicine || !selectedDate || !tel) {
+    if (!medicine || !selectedDate) {
       alert("Please fill in all required fields.");
       return;
     }
 
-    const reminder = {
-      medicine,
-      time: selectedDate,
-      notes,
-      tel,
-    };
+    try {
+      await axios.post(
+        "http://localhost:5000/add-reminder",
+        { medicine, time: selectedDate, notes },
+        { withCredentials: true }
+      );
+      alert("Reminder saved!");
+      setMedicine("");
+      setSelectedDate(null);
+      setNotes("");
+      fetchReminders();
+    } catch (err) {
+      console.error(err);
+      alert("Failed to save reminder");
+    }
+  };
 
-    console.log("Reminder set:", reminder);
-    alert("Reminder saved!");
-
-    setMedicine("");
-    setSelectedDate(null);
-    setNotes("");
-    setTel("");
+  const deleteReminder = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this reminder?"))
+      return;
+    try {
+      await axios.delete(`http://localhost:5000/delete-reminder/${id}`, {
+        withCredentials: true,
+      });
+      alert("Reminder deleted!");
+      fetchReminders();
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete reminder");
+    }
   };
 
   return (
@@ -62,20 +95,11 @@ const Reminder = () => {
             </label>
 
             <label>
-              Notes*
+              Notes
               <textarea
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 placeholder="e.g., After dinner"
-              />
-            </label>
-            <label>
-              Contact Number
-              <input
-                type="tel"
-                value={tel}
-                onChange={(e) => setTel(e.target.value)}
-                required
               />
             </label>
 
@@ -84,6 +108,27 @@ const Reminder = () => {
             </button>
           </form>
         </div>
+      </div>
+
+      <div className="reminder-list">
+        <h3>Your Reminders:</h3>
+        {reminders.length === 0 ? (
+          <p>No reminders set yet.</p>
+        ) : (
+          reminders.map((reminder) => (
+            <div key={reminder._id} className="reminder-item">
+              <div className="reminder-content">
+                <strong>{reminder.medicine}</strong>
+                <small>{new Date(reminder.time).toLocaleString()}</small>
+                {reminder.notes && <small>Note: {reminder.notes}</small>}
+              </div>
+              <FaTrash
+                className="delete-icon"
+                onClick={() => deleteReminder(reminder._id)}
+              />
+            </div>
+          ))
+        )}
       </div>
       <footer className="footer">
         <div className="footer-main">
