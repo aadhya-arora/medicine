@@ -19,6 +19,10 @@ const reminderSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  sent: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const Reminder = mongoose.model("Reminder", reminderSchema);

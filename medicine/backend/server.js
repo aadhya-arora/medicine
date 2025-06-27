@@ -2,12 +2,29 @@ import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+dotenv.config();
 import User from "./user_schema.js";
 import cookieParser from "cookie-parser";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import Reminder from "./reminder_schema.js";
-dotenv.config();
+import twilio from "twilio";
+const accSid = process.env.ACCOUNT_SID;
+const authToken = process.env.AUTH_TOKEN;
+import cron from "node-cron";
+const client = twilio(accSid, authToken);
+
+const sendSMS = (phone, medicine) => {
+  client.messages
+    .create({
+      body: `Reminder! It's time to take your medicine ${medicine}`,
+      from: process.env.PHONE_NUMBER,
+      to: `+91${phone}`,
+    })
+    .then((msg) => console.log("Reminder sent"))
+    .catch((err) => console.log(err));
+};
+
 const app = express();
 app.use(
   cors({
@@ -166,3 +183,21 @@ app.delete("/delete-reminder/:id", async (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+cron.schedule("* * * * *", async () => {
+  const now = new Date();
+  const reminders = await Reminder.find({
+    time: {
+      $lte: now,
+    },
+    sent: { $ne: true },
+  });
+  reminders.forEach(async (reminder) => {
+    try {
+      sendSMS(reminder.tel, reminder.medicine);
+      reminder.sent = true;
+      await reminder.save();
+    } catch (err) {
+      console.log(err);
+    }
+  });
+});
