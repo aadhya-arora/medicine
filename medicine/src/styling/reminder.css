@@ -207,9 +207,10 @@ textarea {
 
 .repeat-select {
   background-color: transparent;
-  border: none;
+  border: 1px solid #0b1444;
+  border-radius: 1rem;
   margin-top: 5px;
-  padding: 5px;
+  padding: 8px;
   width: 100%;
 }
 

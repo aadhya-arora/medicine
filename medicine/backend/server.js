@@ -185,45 +185,69 @@ app.delete("/delete-reminder/:id", async (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+let isRunning = false;
+
 cron.schedule("* * * * *", async () => {
-  const now = new Date();
-  const currentDay = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][
-    now.getDay()
-  ];
+  if (isRunning) {
+    console.log("Previous cron still running, skipping this cycle.");
+    return;
+  }
+  isRunning = true;
 
-  const reminders = await Reminder.find({
-    time: { $lte: now },
-  });
+  try {
+    const now = new Date();
+    const currentDay = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][
+      now.getDay()
+    ];
 
-  for (const reminder of reminders) {
-    if (reminder.sent && reminder.repeatType === "none") {
-      continue;
-    }
+    // Filter reminders: skip already sent non-repeating ones
+    const reminders = await Reminder.find({
+      time: { $lte: now },
+      $or: [
+        { repeatType: { $ne: "none" } },
+        { repeatType: "none", sent: false },
+      ],
+    });
 
-    let shouldSend = false;
+    console.log(`Processing ${reminders.length} reminders at ${now}`);
 
-    if (reminder.repeatType === "daily") {
-      shouldSend = true;
-    } else if (
-      reminder.repeatType === "selected" &&
-      reminder.selectedDays.includes(currentDay)
-    ) {
-      shouldSend = true;
-    } else if (reminder.repeatType === "none" && !reminder.sent) {
-      shouldSend = true;
-    }
+    await Promise.all(
+      reminders.map(async (reminder) => {
+        let shouldSend = false;
 
-    if (shouldSend) {
-      try {
-        sendSMS(reminder.tel, reminder.medicine);
-        if (reminder.repeatType === "none") {
-          reminder.sent = true;
+        if (reminder.repeatType === "daily") {
+          shouldSend = true;
+        } else if (
+          reminder.repeatType === "selected" &&
+          Array.isArray(reminder.selectedDays) &&
+          reminder.selectedDays.includes(currentDay)
+        ) {
+          shouldSend = true;
+        } else if (reminder.repeatType === "none" && !reminder.sent) {
+          shouldSend = true;
         }
-        await reminder.save();
-        console.log("Reminder sent:", reminder.medicine);
-      } catch (err) {
-        console.log(err);
-      }
-    }
+
+        if (shouldSend) {
+          try {
+            await sendSMS(reminder.tel, reminder.medicine);
+
+            if (reminder.repeatType === "none") {
+              reminder.sent = true;
+            }
+            await reminder.save();
+
+            console.log(
+              `Reminder sent to ${reminder.tel} for ${reminder.medicine}`
+            );
+          } catch (err) {
+            console.error("Failed to send reminder:", err);
+          }
+        }
+      })
+    );
+  } catch (err) {
+    console.error("Cron job error:", err);
+  } finally {
+    isRunning = false;
   }
 });

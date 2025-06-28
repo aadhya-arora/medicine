@@ -119,7 +119,7 @@ const Front = () => {
       <footer className="footer">
         <div className="footer-main">
           <div className="footer-section">
-            <h3>MedTrack</h3>
+            <h3>MediTrack</h3>
             <p>
               Helping you stay consistent, aware, and on track with your health
               every day.
@@ -149,7 +149,7 @@ const Front = () => {
           </div>
         </div>
         <div className="footer-bottom">
-          <p>&copy; 2025 MedTrack | Designed with care.</p>
+          <p>&copy; 2025 MediTrack | Designed with care.</p>
         </div>
       </footer>
     </div>

@@ -157,7 +157,7 @@ const Guide = () => {
           </div>
         </div>
         <div className="footer-bottom">
-          <p>&copy; 2025 MedTrack | Designed with care.</p>
+          <p>&copy; 2025 MediTrack | Designed with care.</p>
         </div>
       </footer>
     </div>
