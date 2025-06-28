@@ -74,7 +74,7 @@ const Front = () => {
           <div className="reminder-card">
             <div className="reminder-inner">
               <div className="reminder-front">
-                <h1 className="remind_overlay">Remind you</h1>
+                <h1 className="remind_overlay">We Remind you</h1>
               </div>
               <div className="reminder-back">
                 <Clock size={50} color="#333" />
@@ -96,7 +96,7 @@ const Front = () => {
           <div className="search-card">
             <div className="search-inner">
               <div className="search-front">
-                <h1 className="search_overlay">Make you aware</h1>
+                <h1 className="search_overlay">We Make you aware</h1>
               </div>
               <div className="search-back">
                 <BiSearch size={50} color="#333" />

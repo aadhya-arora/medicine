@@ -9,6 +9,8 @@ const Reminder = () => {
   const [medicine, setMedicine] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
   const [notes, setNotes] = useState("");
+  const [repeatType, setRepeatType] = useState("none");
+  const [selectedDays, setSelectedDays] = useState([]);
   const [reminders, setReminders] = useState([]);
 
   const fetchReminders = async () => {
@@ -27,6 +29,14 @@ const Reminder = () => {
     fetchReminders();
   }, []);
 
+  const toggleDay = (day) => {
+    if (selectedDays.includes(day)) {
+      setSelectedDays(selectedDays.filter((d) => d !== day));
+    } else {
+      setSelectedDays([...selectedDays, day]);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!medicine || !selectedDate) {
@@ -37,13 +47,21 @@ const Reminder = () => {
     try {
       await axios.post(
         "http://localhost:5000/add-reminder",
-        { medicine, time: selectedDate, notes },
+        {
+          medicine,
+          time: selectedDate,
+          notes,
+          repeatType,
+          selectedDays,
+        },
         { withCredentials: true }
       );
       alert("Reminder saved!");
       setMedicine("");
       setSelectedDate(null);
       setNotes("");
+      setRepeatType("none");
+      setSelectedDays([]);
       fetchReminders();
     } catch (err) {
       console.error(err);
@@ -65,6 +83,15 @@ const Reminder = () => {
       alert("Failed to delete reminder");
     }
   };
+
+  const now = new Date();
+
+  const upcomingReminders = reminders.filter(
+    (r) => new Date(r.time) > now && !r.sent
+  );
+  const previousReminders = reminders.filter(
+    (r) => new Date(r.time) <= now || r.sent
+  );
 
   return (
     <div>
@@ -103,6 +130,36 @@ const Reminder = () => {
               />
             </label>
 
+            <label>
+              Repeat
+              <select
+                value={repeatType}
+                onChange={(e) => setRepeatType(e.target.value)}
+                className="repeat-select"
+              >
+                <option value="none">No Repeat</option>
+                <option value="daily">Daily</option>
+                <option value="selected">Selected Days</option>
+              </select>
+            </label>
+
+            {repeatType === "selected" && (
+              <div className="day-selector">
+                {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
+                  (day) => (
+                    <label key={day} className="day-checkbox">
+                      <input
+                        type="checkbox"
+                        checked={selectedDays.includes(day)}
+                        onChange={() => toggleDay(day)}
+                      />
+                      {day}
+                    </label>
+                  )
+                )}
+              </div>
+            )}
+
             <button type="submit" className="calendar-button">
               Save Reminder
             </button>
@@ -110,26 +167,69 @@ const Reminder = () => {
         </div>
       </div>
 
-      <div className="reminder-list">
-        <h3>Your Reminders:</h3>
-        {reminders.length === 0 ? (
-          <p>No reminders set yet.</p>
-        ) : (
-          reminders.map((reminder) => (
-            <div key={reminder._id} className="reminder-item">
-              <div className="reminder-content">
-                <strong>{reminder.medicine}</strong>
-                <small>{new Date(reminder.time).toLocaleString()}</small>
-                {reminder.notes && <small>Note: {reminder.notes}</small>}
+      <div className="reminders-wrapper">
+        <div className="reminder-column">
+          <h3>Upcoming Reminders</h3>
+          {upcomingReminders.length === 0 ? (
+            <p>No upcoming reminders.</p>
+          ) : (
+            upcomingReminders.map((reminder) => (
+              <div key={reminder._id} className="reminder-item">
+                <div className="reminder-content">
+                  <strong>{reminder.medicine}</strong>
+                  <small>{new Date(reminder.time).toLocaleString()}</small>
+                  {reminder.notes && <small>Note: {reminder.notes}</small>}
+                  {reminder.repeatType !== "none" && (
+                    <small>
+                      Repeat:{" "}
+                      {reminder.repeatType === "daily"
+                        ? "Daily"
+                        : Array.isArray(reminder.selectedDays)
+                        ? `Selected Days: ${reminder.selectedDays.join(", ")}`
+                        : ""}
+                    </small>
+                  )}
+                </div>
+                <FaTrash
+                  className="delete-icon"
+                  onClick={() => deleteReminder(reminder._id)}
+                />
               </div>
-              <FaTrash
-                className="delete-icon"
-                onClick={() => deleteReminder(reminder._id)}
-              />
-            </div>
-          ))
-        )}
+            ))
+          )}
+        </div>
+
+        <div className="reminder-column">
+          <h3>Previous Reminders</h3>
+          {previousReminders.length === 0 ? (
+            <p>No previous reminders.</p>
+          ) : (
+            previousReminders.map((reminder) => (
+              <div key={reminder._id} className="reminder-item">
+                <div className="reminder-content">
+                  <strong>{reminder.medicine}</strong>
+                  <small>{new Date(reminder.time).toLocaleString()}</small>
+                  {reminder.notes && <small>Note: {reminder.notes}</small>}
+                  {reminder.repeatType !== "none" && (
+                    <small>
+                      Repeat:{" "}
+                      {reminder.repeatType === "daily"
+                        ? "Daily"
+                        : `Selected Days: ${reminder.selectedDays.join(", ")}`}
+                    </small>
+                  )}
+                  {reminder.sent && <span className="sent-label">Sent</span>}
+                </div>
+                <FaTrash
+                  className="delete-icon"
+                  onClick={() => deleteReminder(reminder._id)}
+                />
+              </div>
+            ))
+          )}
+        </div>
       </div>
+
       <footer className="footer">
         <div className="footer-main">
           <div className="footer-section">

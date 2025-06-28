@@ -23,6 +23,15 @@ const reminderSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  repeatType: {
+    type: String,
+    enum: ["none", "daily", "selected"],
+    default: "none",
+  },
+  selectedDays: {
+    type: [String],
+    default: [],
+  },
 });
 
 const Reminder = mongoose.model("Reminder", reminderSchema);

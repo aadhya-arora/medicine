@@ -133,7 +133,7 @@ app.post("/add-reminder", async (req, res) => {
   jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
     if (err) return res.status(403).json({ error: "Invalid token" });
 
-    const { medicine, time, notes } = req.body;
+    const { medicine, time, notes, repeatType, selectedDays } = req.body;
 
     try {
       const newReminder = await Reminder.create({
@@ -142,6 +142,8 @@ app.post("/add-reminder", async (req, res) => {
         notes,
         tel: decoded.phone,
         userEmail: decoded.email,
+        repeatType,
+        selectedDays,
       });
       res
         .status(200)
@@ -185,19 +187,43 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 cron.schedule("* * * * *", async () => {
   const now = new Date();
+  const currentDay = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][
+    now.getDay()
+  ];
+
   const reminders = await Reminder.find({
-    time: {
-      $lte: now,
-    },
-    sent: { $ne: true },
+    time: { $lte: now },
   });
-  reminders.forEach(async (reminder) => {
-    try {
-      sendSMS(reminder.tel, reminder.medicine);
-      reminder.sent = true;
-      await reminder.save();
-    } catch (err) {
-      console.log(err);
+
+  for (const reminder of reminders) {
+    if (reminder.sent && reminder.repeatType === "none") {
+      continue;
     }
-  });
+
+    let shouldSend = false;
+
+    if (reminder.repeatType === "daily") {
+      shouldSend = true;
+    } else if (
+      reminder.repeatType === "selected" &&
+      reminder.selectedDays.includes(currentDay)
+    ) {
+      shouldSend = true;
+    } else if (reminder.repeatType === "none" && !reminder.sent) {
+      shouldSend = true;
+    }
+
+    if (shouldSend) {
+      try {
+        sendSMS(reminder.tel, reminder.medicine);
+        if (reminder.repeatType === "none") {
+          reminder.sent = true;
+        }
+        await reminder.save();
+        console.log("Reminder sent:", reminder.medicine);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }
 });
