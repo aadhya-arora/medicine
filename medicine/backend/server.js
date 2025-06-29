@@ -30,7 +30,8 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://medicine-psi-seven.vercel.app", // <-- Tumhara production frontend
+      "https://medicine-psi-seven.vercel.app",
+      "https://medicine-nmpckp9aq-aadhya-aroras-projects.vercel.app",
     ],
     credentials: true,
   })

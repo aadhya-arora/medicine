@@ -13,7 +13,8 @@ const Reminder = () => {
   const [selectedDays, setSelectedDays] = useState([]);
   const [reminders, setReminders] = useState([]);
 
-  const backendUrl = process.env.VITE_BACKEND_URL || "http://localhost:5000";
+  const backendUrl =
+    import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
 
   const fetchReminders = async () => {
     try {
