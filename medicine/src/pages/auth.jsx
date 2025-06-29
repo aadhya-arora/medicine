@@ -11,7 +11,7 @@ const Auth = () => {
     password: "",
   });
 
-  const backendUrl = process.env.BACKEND_URL || "http://localhost:5000";
+  const backendUrl = process.env.VITE_BACKEND_URL || "http://localhost:5000";
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
