@@ -31,6 +31,7 @@ app.use(
     origin: [
       "http://localhost:5173",
       "https://medicine-psi-seven.vercel.app",
+      "https://meditrack-ibgj.onrender.com",
       "https://medicine-nmpckp9aq-aadhya-aroras-projects.vercel.app",
     ],
     credentials: true,
