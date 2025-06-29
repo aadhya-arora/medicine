@@ -8,11 +8,12 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
   const [user, setUser] = useState(null);
-
+  const backendUrl =
+    import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await fetch("http://localhost:5000/verify", {
+        const res = await fetch(`${backendUrl}/verify`, {
           method: "GET",
           credentials: "include", // send cookies
         });
@@ -29,7 +30,7 @@ const Navbar = () => {
   }, []);
 
   const handleLogout = async () => {
-    await fetch("http://localhost:5000/logout", {
+    await fetch(`${backendUrl}/logout`, {
       method: "POST",
       credentials: "include",
     });
