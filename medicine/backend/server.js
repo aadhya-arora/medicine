@@ -28,10 +28,14 @@ const sendSMS = (phone, medicine) => {
 const app = express();
 app.use(
   cors({
-    origin: ["http://localhost:5173"],
+    origin: [
+      "http://localhost:5173",
+      "https://medicine-psi-seven.vercel.app", // <-- Tumhara production frontend
+    ],
     credentials: true,
   })
 );
+
 app.use(express.json());
 app.use(cookieParser());
 
