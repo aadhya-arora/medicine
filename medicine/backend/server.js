@@ -67,7 +67,11 @@ app.post("/create", (req, res) => {
         password: hash,
       });
       let token = jwt.sign({ email }, process.env.JWT_SECRET);
-      res.cookie("token", token, { httpOnly: true });
+      res.cookie("token", token, {
+        httpOnly: true,
+        sameSite: "None",
+        secure: true,
+      });
       res.send(createUser);
     });
   });
@@ -89,7 +93,11 @@ app.post("/login", async (req, res) => {
       process.env.JWT_SECRET
     );
 
-    res.cookie("token", token, { httpOnly: true });
+    res.cookie("token", token, {
+      httpOnly: true,
+      sameSite: "None",
+      secure: true,
+    });
     res.status(200).json({ message: "Login successful" });
   } catch (err) {
     console.error("Login error:", err);
