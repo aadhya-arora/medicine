@@ -10,6 +10,8 @@ const Auth = () => {
     phone: "",
     password: "",
   });
+
+  const backendUrl = process.env.BACKEND_URL || "http://localhost:5000";
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -28,7 +30,7 @@ const Auth = () => {
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:5000/create", {
+      const res = await fetch(`${backendUrl}/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -52,7 +54,7 @@ const Auth = () => {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:5000/login", {
+      const res = await fetch(`${backendUrl}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

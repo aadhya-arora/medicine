@@ -13,9 +13,11 @@ const Reminder = () => {
   const [selectedDays, setSelectedDays] = useState([]);
   const [reminders, setReminders] = useState([]);
 
+  const backendUrl = process.env.BACKEND_URL || "http://localhost:5000";
+
   const fetchReminders = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/reminders", {
+      const res = await axios.get(`${backendUrl}/reminders`, {
         withCredentials: true,
       });
       setReminders(res.data);
@@ -46,7 +48,7 @@ const Reminder = () => {
 
     try {
       await axios.post(
-        "http://localhost:5000/add-reminder",
+        `${backendUrl}/add-reminder`,
         {
           medicine,
           time: selectedDate,
@@ -73,7 +75,7 @@ const Reminder = () => {
     if (!window.confirm("Are you sure you want to delete this reminder?"))
       return;
     try {
-      await axios.delete(`http://localhost:5000/delete-reminder/${id}`, {
+      await axios.delete(`${backendUrl}/delete-reminder/${id}`, {
         withCredentials: true,
       });
       alert("Reminder deleted!");
